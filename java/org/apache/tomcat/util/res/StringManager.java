@@ -58,7 +58,7 @@ public class StringManager {
     /**
      * The ResourceBundle for this StringManager.
      */
-    private final ResourceBundleWrapper bundle;
+    private final ResourceBundle bundle;
     private final Locale locale;
 
 
