@@ -3,9 +3,9 @@ a: 打印日志的时候日志字符串会通过 ResourceBundle 类来加载不�
 这种 "*_zh_CN.properties" 的配置文件, java 读取 properties 文件内容时使用的编码是 ISO_8859_1, 而开发工具中一般会使用 GBK 或者 UTF-8
 编码来显示日志信息, 所以导致的乱码.
 解决方法有:
-1) 将本地的Locale改成英文的，那ResourceBundle每次就会去加载英文的属性文件;
-2) 删除多余的属性文件，ResourceBundle就只能加载英文的属性文件了;
-3) 对tomcat中每一个从属性文件获取出来的字符串进行编码转换;
+1) 将本地的 Locale 改成英文的, 那 ResourceBundle 每次就会去加载英文的属性文件;
+2) 删除多余的属性文件, ResourceBundle 就只能加载英文的属性文件了;
+3) 对 tomcat 中每一个从属性文件获取出来的字符串进行编码转换;
 PS: 为什么在启动 tomcat 可运行文件的时候不会出现乱码问题呢? 由于 tomcat 打包好的可运行文件中只保留了英文的配置文件所以只会加载英文字符串
 就不会出现乱码问题了;
 参考: https://blog.csdn.net/P19777/article/details/103401329
