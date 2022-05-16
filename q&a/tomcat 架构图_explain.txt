@@ -1,0 +1,33 @@
+2.1、Server
+Server代表整个catalina servlet容器。它的特性代表servlet容器的整体特性。Server可以包含一个或多个service，以及顶级的命名资源集。通常，此接口的实现，还将实现生命周期接口，这样当start()和stop()方法被调用，所有它包含的service也开始或停止。在两者之间，实现必须在端口属性指定的端口号上打开服务器套接字。当连接被接受时，读取第一行，并与指定的关闭命令进行比较。如果命令匹配，则启动服务器关机。注意，按图上各个容器或组件的关系此接口的正确实现应该是一个单例的。
+
+2.2、service
+service连接一组或多个Connector和一个Container，他们一起来处理传入的请求。也就是一个service把多个Connector和一个Container组装起来才能对外提供服务，二而service也需要生存的土壤这个土壤就是Server。service的标准实现是StandardService它不仅实现了Service接口还实现了Lifycycle接口说明他的上级容器可以控制它的生命周期。
+
+2.3、Connector
+Connector负责把接收到的请求解析出来然后封装成request和response对象然后交给Container处理。目前Connector支持http和ajp协议。
+
+2.4、Container
+Container字面是容器的意思。既然是容器里面肯定装有东西，那么它装的是什么呢？它装着Engine、Host、Context和Wrapper这几个容器。他们是Container子类型。Engine（引擎）包含Host和Context，接到请求后仍给相应的Host在相应的Context里处理。Host：就是我们所理解的虚拟主机。Context：就是我们所部属的具体Web应用的上下文，每个请求都在是相应的上下文里处理的。Wrapper：Wrapper是针对每个Servlet的Container，每个Servlet都有相应的Wrapper来管理。
+
+2.5、Component 组件:
+需求被传递到了容器里面， 在合适的时候， 会传递给下一个容器处理。而容器里面又盛装着各种各样的组件， 我们可以理解为提供各种各样的增值服务。比如:
+
+manager: 当一个容器里面装了manager组件后，这个容器就支持session管理了， 事实上在tomcat里面的session管理, 就是靠的在context里面装的manager component.
+
+logger: 当一个容器里面装了logger组件后， 这个容器里所发生的事情， 就被该组件记录下来, 我们通常会在logs/ 这个目录下看见catalina_log.time.txt 以及localhost.time.txt和localhost_examples_log.time.txt。 这就是因为我们分别为：engin, host以及context(examples)这三个容器安装了logger组件， 这也是默认安装， 又叫做标配 .
+
+loader: loader这个组件通常只会给我们的context容器使用，loader是用来启动context以及管理这个context的classloader用的。
+
+pipline: pipeline是这样一个东西，使用的责任链模式.  当一个容器决定了要把从上级传递过来的需求交给子容器的时候， 他就把这个需求放进容器的管道(pipeline)里面去。 而需求傻呼呼得在管道里面流动的时候， 就会被管道里面的各个阀门拦截下来。 比如管道里面放了两个阀门。 第一个阀门叫做“access_allow_vavle”， 也就是说需求流过来的时候，它会看这个需求是哪个IP过来的， 如果这个IP已经在黑名单里面了，sure, 杀！ 第二个阀门叫做“defaul_access_valve”它会做例行的检查， 如果通过的话，OK， 把需求传递给当前容器的子容器。 就是通过这种方式， 需求就在各个容器里面传递，流动， 最后抵达目的地的了。
+
+valve: 就是上面所说的阀门。
+
+Tomcat里面大概就是这么些东西， 我们可以简单地这么理解tomcat的框架，它是一种自上而下， 容器里又包含子容器的这样一种结构。
+
+好了理解了整体架构我们后面来看看tomcat的更深层的技术。。。。
+
+作者：住在山丘上
+链接：https://www.jianshu.com/p/ca12f185347d
+来源：简书
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
